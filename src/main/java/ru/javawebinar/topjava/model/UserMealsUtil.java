@@ -2,15 +2,14 @@ package ru.javawebinar.topjava.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * Created by Ognerezov on 27/08/16.
+ * Это не та реализация
  */
 public class UserMealsUtil {
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> meals,LocalDateTime startTime, LocalDateTime endTime, int coloriesLimit){
