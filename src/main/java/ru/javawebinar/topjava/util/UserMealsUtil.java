@@ -16,9 +16,9 @@ import java.util.stream.Stream;
  * 31.05.2015.
  */
 public class UserMealsUtil {
-    private static final HashMap<LocalDate,Integer> caloriesPerDay=new HashMap<LocalDate,Integer>();
-    private static final LinkedList<UserMeal> mealsAtTime=new LinkedList<UserMeal>();
-    private static final LinkedList<UserMealWithExceed> result=new LinkedList<UserMealWithExceed>();
+    private static  HashMap<LocalDate,Integer> caloriesPerDay=new HashMap<LocalDate,Integer>();
+    private static  LinkedList<UserMeal> mealsAtTime=new LinkedList<UserMeal>();
+    private static  LinkedList<UserMealWithExceed> result=new LinkedList<UserMealWithExceed>();
     public static void main(String[] args) {
         List<UserMeal> mealList = Arrays.asList(
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 30,10,0), "Завтрак", 500),
@@ -39,12 +39,13 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> meals,LocalTime startTime, LocalTime endTime, int coloriesLimit){
 
-        mealsAtTime.clear();
-        result.clear();
+        caloriesPerDay=new HashMap<LocalDate,Integer>();
+        mealsAtTime=new LinkedList<UserMeal>();
+        result=new LinkedList<UserMealWithExceed>();
 
-       meals.stream().forEach(meal -> addMeal(meal,startTime,endTime));
+        meals.stream().forEach(meal -> addMeal(meal,startTime,endTime));
+        mealsAtTime.stream().forEach(meal -> proccessMeal(meal,coloriesLimit));
 
-      mealsAtTime.stream().forEach(meal -> proccessMeal(meal,coloriesLimit));
         return result;
 
     }
