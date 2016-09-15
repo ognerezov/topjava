@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
+import ru.javawebinar.topjava.model.MealListMemory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,12 +19,13 @@ import static ru.javawebinar.topjava.util.UserMealsUtil.getTestList;
  * Date: 19.08.2014
  */
 public class MealServlet extends HttpServlet {
+    private static final MealListMemory model=MealListMemory.getTestObject();
     private static final Logger LOG = getLogger(MealServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOG.debug("redirect to userList");
-        request.setAttribute("meals",getFilteredWithExceeded(getTestList(), LocalTime.of(1, 0), LocalTime.of(21, 0), 2000));
+        request.setAttribute("meals",model.getListWithExceed());
         request.getRequestDispatcher("/mealList.jsp").forward(request, response);
  //       response.sendRedirect("mealList.jsp");
     }
