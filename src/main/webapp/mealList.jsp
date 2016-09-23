@@ -18,9 +18,16 @@
 <body>
 <section>
     <h2><a href="index.html">Home</a></h2>
+    <h3>Your user id is:</h3>
+    <form method="get" action="meals?action=changeuser&userid=${userid}">
+        <input type="number" value="<%= request.getParameter("userid") %>" name="userid"></dd>
+                <button type="submit">Change user</button>
+    </form>
+
     <h3>Meal list</h3>
     <a href="meals?action=create">Add Meal</a>
     <hr>
+
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
@@ -32,7 +39,7 @@
         </tr>
         </thead>
         <c:forEach items="${mealList}" var="meal">
-            <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
+            <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.transferobjects.MealWithExceed"/>
             <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
                 <td>
                         <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
