@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,6 +31,9 @@ public class MealServiceTest {
 
     @Autowired
     protected MealService service;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testDelete() throws Exception {
@@ -66,8 +71,9 @@ public class MealServiceTest {
         MATCHER.assertEquals(updated, service.get(MEAL1_ID, USER_ID));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testNotFoundUpdate() throws Exception {
+        thrown.expect(NotFoundException.class);
         Meal item = service.get(MEAL1_ID, USER_ID);
         service.update(item, ADMIN_ID);
     }

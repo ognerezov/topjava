@@ -1,22 +1,48 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
  * GKislin
  * 11.01.2015.
  */
+@NamedQueries({
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal u WHERE u.id=:id")
+      })
+
+@Entity
+@Table(name = "meals")
 public class Meal extends BaseEntity {
 
+    public static final String DELETE = "Meal.delete";
+    public static final String ALL_SORTED = "Meal.getAllSorted";
+    public static final String GETALL = "Meal.getAll";
+
+
+    @Column(name = "date_time",nullable = false)
+    @NotNull
     private LocalDateTime dateTime;
 
+    @Column(name = "description",nullable = false)
+    @NotNull
+    @Length(min=4)
     private String description;
 
+    @Column(name = "calories",nullable = false)
+    @NotNull
+    @Min(100)
     private int calories;
 
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Meal() {
