@@ -1,9 +1,12 @@
 package ru.javawebinar.topjava.service.datajpa;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.repository.JpaUtil;
 import ru.javawebinar.topjava.service.AbstractUserServiceTest;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -22,5 +25,14 @@ public class DataJpaUserServiceTest extends AbstractUserServiceTest {
     @Test(expected = NotFoundException.class)
     public void testGetWithMealsNotFound() throws Exception {
         service.getWithMeals(1);
+    }
+
+    @Autowired
+    protected JpaUtil jpaUtil;
+
+    @Before
+    public void setUp() throws Exception {
+        service.evictCache();
+        jpaUtil.clear2ndLevelHibernateCache();
     }
 }

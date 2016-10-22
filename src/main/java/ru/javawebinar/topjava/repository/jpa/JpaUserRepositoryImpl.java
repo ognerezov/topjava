@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -43,7 +44,10 @@ public class JpaUserRepositoryImpl implements UserRepository {
 
     @Override
     public User get(int id) {
+       // Query q = this.em.createQuery("SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.id = :id");
+       // q.setParameter("id", id);
         return em.find(User.class, id);
+       // return (User) q.getSingleResult();
     }
 
     @Override

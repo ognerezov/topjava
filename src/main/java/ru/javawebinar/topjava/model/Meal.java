@@ -28,6 +28,8 @@ public class Meal extends BaseEntity {
     public static final String ALL_SORTED = "Meal.getAll";
     public static final String DELETE = "Meal.delete";
     public static final String GET_BETWEEN = "Meal.getBetween";
+    public static final String DEFAULT_DESCRIPTION="New meal";
+    public static final int DEFAULT_CALORIES=500;
 
     @Column(name = "date_time", nullable = false)
     @NotNull

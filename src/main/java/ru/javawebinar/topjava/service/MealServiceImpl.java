@@ -64,5 +64,9 @@ public class MealServiceImpl implements MealService {
 //        return meal;
         return ExceptionUtil.checkNotFoundWithId(repository.getWithUser(id, userId), id);
     }
+    @Override
+    public Meal getDefault(){
+       return new Meal(LocalDateTime.now(),Meal.DEFAULT_DESCRIPTION,Meal.DEFAULT_CALORIES);
+    }
 
 }

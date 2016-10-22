@@ -8,10 +8,9 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.JpaUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+import static org.junit.Assert.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
@@ -20,14 +19,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
     protected UserService service;
 
-    @Autowired
-    protected JpaUtil jpaUtil;
 
-    @Before
-    public void setUp() throws Exception {
-        service.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
-    }
         
     @Test
     public void testSave() throws Exception {
@@ -73,6 +65,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void testGetAll() throws Exception {
         Collection<User> all = service.getAll();
+        all.stream().forEach(user ->System.out.println(user) );
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER), all);
     }
 
@@ -83,5 +76,17 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         updated.setCaloriesPerDay(330);
         service.update(updated);
         MATCHER.assertEquals(updated, service.get(USER_ID));
+    }
+
+    @Test
+    public void testRoles() throws Exception {
+        User admin = service.get(ADMIN_ID);
+        Set<Role> roles=admin.getRoles();
+        assertEquals(ADMIN.getRoles().size(),roles.size());
+        for (Role r:ADMIN.getRoles() ){
+            if (!roles.contains(r)){
+                fail("Not found" +r);
+            }
+        }
     }
 }
