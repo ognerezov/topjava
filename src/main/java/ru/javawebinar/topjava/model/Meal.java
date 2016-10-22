@@ -5,7 +5,9 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * GKislin
@@ -71,8 +73,12 @@ public class Meal extends BaseEntity {
         return calories;
     }
 
-    public boolean isNew() {
-        return id == null;
+    public LocalDate getDate() {
+        return dateTime.toLocalDate();
+    }
+
+    public LocalTime getTime() {
+        return dateTime.toLocalTime();
     }
 
     public void setDateTime(LocalDateTime dateTime) {
