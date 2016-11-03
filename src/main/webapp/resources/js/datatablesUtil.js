@@ -8,6 +8,10 @@ function makeEditable() {
         return false;
     });
 
+    $('.filter').click(function () {
+        filter();
+    });
+
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
     });
@@ -47,6 +51,24 @@ function save() {
         data: form.serialize(),
         success: function () {
             $('#editRow').modal('hide');
+            updateTable();
+            successNoty('Saved');
+        }
+    });
+}
+
+function filter(){
+    var startDate=document.getElementById("startDate");
+    var endDate=document.getElementById("endDate");
+    var starTime=document.getElementById("startTime");
+    var endTime=document.getElementById("endTime");
+    console.log(startDate.value);
+    $.ajax({
+        type: "GET",
+        url: ajaxUrl+"\\filter?startDate="+startDate.value+"&startTime="+starTime.value+
+        "&endDate="+endDate.value +"&endTime="+endTime.value,
+        data: "",
+        success: function () {
             updateTable();
             successNoty('Saved');
         }

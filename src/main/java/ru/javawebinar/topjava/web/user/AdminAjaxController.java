@@ -21,6 +21,7 @@ public class AdminAjaxController extends AbstractUserController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {
+
         super.delete(id);
     }
 
