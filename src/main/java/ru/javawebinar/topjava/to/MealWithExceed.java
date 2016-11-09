@@ -1,7 +1,11 @@
 package ru.javawebinar.topjava.to;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -9,15 +13,19 @@ import java.time.LocalDateTime;
  * 11.01.2015.
  */
 public class MealWithExceed {
-    private final Integer id;
+    private Integer id;
+    @NotEmpty
+    @DateTimeFormat
+    private LocalDateTime dateTime;
 
-    private final LocalDateTime dateTime;
+    @NotEmpty(message = " must not be empty")
+    private String description;
 
-    private final String description;
+    @Range(min = 100, max = 10000)
+    @NotNull(message = " must not be empty")
+    private int calories;
 
-    private final int calories;
-
-    private final boolean exceed;
+    private boolean exceed;
 
     public MealWithExceed(@JsonProperty("id") Integer id,
                           @JsonProperty("dateTime") LocalDateTime dateTime,
@@ -60,5 +68,31 @@ public class MealWithExceed {
                 ", calories=" + calories +
                 ", exceed=" + exceed +
                 '}';
+    }
+
+    public MealWithExceed() {
+    }
+
+    public boolean isNew(){
+        return id==null;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public void setExceed(boolean exceed) {
+        this.exceed = exceed;
     }
 }

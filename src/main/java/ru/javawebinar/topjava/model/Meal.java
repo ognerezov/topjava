@@ -2,9 +2,13 @@ package ru.javawebinar.topjava.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.to.MealWithExceed;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -25,14 +29,16 @@ import java.time.LocalTime;
 })
 @Entity
 @Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "meals_unique_user_datetime_idx")})
-public class Meal extends BaseEntity {
+public class Meal extends BaseEntity implements Serializable{
     public static final String GET = "Meal.get";
     public static final String ALL_SORTED = "Meal.getAll";
     public static final String DELETE = "Meal.delete";
     public static final String GET_BETWEEN = "Meal.getBetween";
+    private static final long serialVersionUID = 7L;
 
     @Column(name = "date_time", nullable = false)
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
@@ -61,6 +67,12 @@ public class Meal extends BaseEntity {
         this.calories = calories;
     }
 
+    public  Meal(MealTo mealTo){
+        this.id=mealTo.getId();
+        this.dateTime=mealTo.getDateTime();
+        this.description=mealTo.getDescription();
+        this.calories=mealTo.getCalories();
+    }
     public LocalDateTime getDateTime() {
         return dateTime;
     }
