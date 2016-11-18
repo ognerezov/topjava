@@ -1,13 +1,12 @@
 package ru.javawebinar.topjava.web.user;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.util.exception.BadRequestException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,7 +33,7 @@ public class AdminAjaxController extends AbstractUserController {
         super.delete(id);
     }
 
-    @PostMapping
+   /* @PostMapping
     public ResponseEntity<String> createOrUpdate(@Valid UserTo userTo, BindingResult result) {
         if (result.hasErrors()) {
             // TODO change to exception handler
@@ -48,6 +47,18 @@ public class AdminAjaxController extends AbstractUserController {
             super.update(userTo);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }*/
+
+    @PostMapping
+    public void createOrUpdate(@Valid UserTo userTo, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new BadRequestException("Not all fields are filled correctly");
+        }
+        if (userTo.isNew()) {
+            super.create(UserUtil.createNewFromTo(userTo));
+        } else {
+            super.update(userTo);
+        }
     }
 
     @PostMapping(value = "/{id}")

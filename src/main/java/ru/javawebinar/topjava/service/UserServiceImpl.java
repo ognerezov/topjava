@@ -12,6 +12,7 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.exception.DuplicateIdException;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -34,6 +35,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
+        if (user.isNew()){
+            try {
+                loadUserByUsername(user.getEmail());
+                throw new DuplicateIdException("Email already in use");
+            } catch (UsernameNotFoundException e){
+
+            }
+        }
         return repository.save(prepareToSave(user));
     }
 
